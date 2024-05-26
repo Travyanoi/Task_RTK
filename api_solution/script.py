@@ -10,6 +10,9 @@ load_dotenv()
 
 
 def write_data(data: dict, okved: str) -> None:
+    """Func to write data from ofdata API to database
+    :param data: data from ofdata API to write
+    :param okved: okved to write in database"""
     result = []
     for data in data:
         result.append((data["НаимПолн"], okved, data["ИНН"], data["КПП"], data["ЮрАдрес"]))
@@ -23,6 +26,18 @@ def write_data(data: dict, okved: str) -> None:
 
 
 def build_url(api_key: str, find_by: str, obj: str, region: str, query_data: str, page: str = 1) -> str:
+    """Func bulds url to get data from ofdata.ru API\n
+    :param api_key: Api key
+    :param find_by: The filter by which the api searches for data from query_data
+    :param obj: object to be searched: org or ent
+    :param region: region to be searched 2 nums
+    :param query_data: query for searching
+    :param page: num of page if more than 1"""
+    if obj != "org" or obj != "ent":
+        raise ValueError(f"obj must be org or ent, got {obj}")
+    if len(region) != 2:
+        raise ValueError(f"region must be 2 nums, got {region}")
+
     url = 'https://api.ofdata.ru/v2/search?'
     query = f'key={api_key}&by={find_by}&obj={obj}&region={region}&query={query_data}&page={page}'
     return url + query
@@ -30,6 +45,7 @@ def build_url(api_key: str, find_by: str, obj: str, region: str, query_data: str
 
 @timer
 def get_api_data() -> None:
+    """Func get data from ofdata.ru API"""
     create_models(cursor)
 
     api_key = env.get('OFDATA_API_KEY')

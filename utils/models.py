@@ -1,4 +1,6 @@
 def create_models(cursor) -> None:
+    """Creates the model of table.
+    :param cursor: Cursor object.:"""
     cursor.execute("""create table if not exists okved_62_org_info(
                    id serial primary key not null,
                    company_name varchar(250) not null,
