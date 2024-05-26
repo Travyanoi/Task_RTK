@@ -88,7 +88,7 @@ def search_and_write(data: dict) -> None:
                 full_name = org["full_name"]
                 registration_place = build_registration_place(org["data"]["СвАдресЮЛ"]["АдресРФ"])
 
-                cursor.execute("""insert into okved_62_organization_info_test(
+                cursor.execute("""insert into okved_62_org_info(
                                     company_name,
                                     okved,
                                     inn,
