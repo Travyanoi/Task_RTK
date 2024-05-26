@@ -33,14 +33,15 @@ def build_url(api_key: str, find_by: str, obj: str, region: str, query_data: str
     :param region: region to be searched 2 nums
     :param query_data: query for searching
     :param page: num of page if more than 1"""
-    if obj != "org" or obj != "ent":
+    if obj == "org" or obj == "ent":
+        if len(region) == 2:
+            url = 'https://api.ofdata.ru/v2/search?'
+            query = f'key={api_key}&by={find_by}&obj={obj}&region={region}&query={query_data}&page={page}'
+            return url + query
+        else:
+            raise ValueError(f"region must be 2 nums, got {region}")
+    else:
         raise ValueError(f"obj must be org or ent, got {obj}")
-    if len(region) != 2:
-        raise ValueError(f"region must be 2 nums, got {region}")
-
-    url = 'https://api.ofdata.ru/v2/search?'
-    query = f'key={api_key}&by={find_by}&obj={obj}&region={region}&query={query_data}&page={page}'
-    return url + query
 
 
 @timer
